@@ -26,9 +26,12 @@
 #
 
 import os
+import re
+import sys
 import random
 import base64
 import string
+import signal
 import getpass
 from Crypto.Cipher import AES
 
@@ -38,23 +41,43 @@ G = '\033[92m'
 N = '\033[0m'
 boolean = True
 
-def options():
-  print W + ''
-  print '####################################'
-  print '#                                  #'
-  print '# APG tool                         #'
-  print '#                                  #'
-  print '# Advanced Password Generator Tool #'
-  print '#                                  #'
-  print '# By Tesla                         #'
-  print '#                                  #'
-  print '####################################'
 
+print '' + W
+print '####################################'
+print '#                                  #'
+print '# APG tool                         #'
+print '#                                  #'
+print '# Advanced Password Generator Tool #'
+print '#                                  #'
+print '# By Tesla                         #'
+print '#                                  #'
+print '####################################'
+
+def signal_handler(signal, frame):
+  print ''
+  print W + 'Quitting..' + N
+  print ''
+  sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
+def start_options():
   print ''
   print '[1] Generate Password'
   print '[2] Decrypt Password'
   print '[3] Quit'
   print ''
+
+def start_char():
+  print '' + W
+  print '[d] Decimal'
+  print '[l] Lowercase'
+  print '[u] Uppercase'
+  print '[s] Special'
+  print '[r] Random'
+  print ''
+  schar = raw_input('Password start with: ' + N)
+  return schar
 
 def makepasswd():
   while boolean is True:
@@ -70,7 +93,8 @@ def makepasswd():
       break
     else:
       print R + 'Wrong choice!' + N
-  
+
+  schar = start_char()
   dec = True
   while dec is True:
     decimal = raw_input(W + 'Number of decimals: ' + N)
@@ -127,11 +151,54 @@ def makepasswd():
   shuffle = list(passwd)
   random.shuffle(shuffle)
   passwd = ''.join(shuffle)
-  print ''
+  if schar is 'd':
+    cnt = 0
+    passwd = list(passwd)
+    for d in passwd:
+      if d in string.digits:
+        position = cnt
+        break
+      cnt += 1
+    passwd.insert(0, passwd.pop(cnt))
+    passwd = ''.join(passwd)
+  elif schar is 'l':
+    cnt = 0
+    passwd = list(passwd)
+    for d in passwd:
+      if d in ascii_lowercase:
+        position = cnt
+        break
+      cnt += 1
+    passwd.insert(0, passwd.pop(cnt))
+    passwd = ''.join(passwd)
+  elif schar is 'u':
+    cnt = 0
+    passwd = list(passwd)
+    for u in passwd:
+      if u in ascii_uppercase:
+        position = cnt
+        break
+      cnt += 1
+    passwd.insert(0, passwd.pop(cnt))
+    passwd = ''.join(passwd)
+  elif schar is 's':
+    cnt = 0
+    passwd = list(passwd)
+    for s in passwd:
+      if s in string.punctuation:
+        print s
+        print cnt
+        position = cnt
+        break
+      cnt += 1
+    passwd.insert(0, passwd.pop(cnt))
+    passwd = ''.join(passwd)
+  else:
+    print ''
   print W + 'Password: ' + G + passwd + N
   print ''
 
-  doc = open(file_path + file_name, 'a')
+  ofile = open(file_path + file_name, 'a')
   if passwd_for is '':
     passwd_for = '<empty>'
   if file_name is '':
@@ -144,8 +211,8 @@ def makepasswd():
   encAES = lambda c, s: base64.b64encode(c.encrypt(pad(s)))
   cipher = AES.new(key1)
   encoded = encAES(cipher, passwd)
-  doc.write(passwd_for + '::' + encoded + '\n')
-  doc.close()
+  ofile.write(passwd_for + '::' + encoded + '\n')
+  ofile.close()
 
   print ''
   print 'Done!'
@@ -162,7 +229,7 @@ def decryptpasswd():
   print 'Decrypted Passwd: ' + G + decoded
 
 while boolean is True:
-  options()
+  start_options()
   case = raw_input('Please Select: ' + N)
   if case is '1':
     print ''
