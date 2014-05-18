@@ -23,7 +23,7 @@
 # Project will be update @
 # https://github.com/t3sl4/apg-tool
 #
-# by Tesla
+#
 
 import os
 import random
