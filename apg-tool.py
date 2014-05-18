@@ -38,22 +38,23 @@ G = '\033[92m'
 N = '\033[0m'
 boolean = True
 
-print W + ''
-print '####################################'
-print '#                                  #'
-print '# APG tool                         #'
-print '#                                  #'
-print '# Advanced Password Generator Tool #'
-print '#                                  #'
-print '# By Tesla                         #'
-print '#                                  #'
-print '####################################'
+def options():
+  print W + ''
+  print '####################################'
+  print '#                                  #'
+  print '# APG tool                         #'
+  print '#                                  #'
+  print '# Advanced Password Generator Tool #'
+  print '#                                  #'
+  print '# By Tesla                         #'
+  print '#                                  #'
+  print '####################################'
 
-print ''
-print '[1] Generate Password'
-print '[2] Decrypt Password'
-print '[3] Quit'
-print ''
+  print ''
+  print '[1] Generate Password'
+  print '[2] Decrypt Password'
+  print '[3] Quit'
+  print ''
 
 def makepasswd():
   while boolean is True:
@@ -161,15 +162,14 @@ def decryptpasswd():
   print 'Decrypted Passwd: ' + G + decoded
 
 while boolean is True:
+  options()
   case = raw_input('Please Select: ' + N)
   if case is '1':
     print ''
     makepasswd()
-    break
   elif case is '2':
     print ''
     decryptpasswd()
-    break
   elif case is '3':
     print ''
     print W + 'Bye!' + N
