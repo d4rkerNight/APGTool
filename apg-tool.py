@@ -45,13 +45,14 @@ print '# APG tool                         #'
 print '#                                  #'
 print '# Advanced Password Generator Tool #'
 print '#                                  #'
-print '# By t3sl4                         #'
+print '# By Tesla                         #'
 print '#                                  #'
 print '####################################'
 
 print ''
 print '[1] Generate Password'
 print '[2] Decrypt Password'
+print '[3] Quit'
 print ''
 
 def makepasswd():
@@ -68,11 +69,27 @@ def makepasswd():
       break
     else:
       print R + 'Wrong choice!' + N
-
-  decimal = raw_input(W + 'Number of decimals: ' + N)
-  lowercase = raw_input(W + 'Number of lowercase: ' + N)
-  uppercase = raw_input(W + 'Number of uppercase: ' + N)
-  special_char = raw_input(W + 'Number of special char: ' + N)
+  
+  dec = True
+  while dec is True:
+    decimal = raw_input(W + 'Number of decimals: ' + N)
+    if decimal.isdigit():
+      dec = False
+  lcase = True
+  while lcase is True:
+    lowercase = raw_input(W + 'Number of lowercase: ' + N)
+    if lowercase.isdigit():
+      lcase = False
+  ucase = True
+  while ucase is True:
+    uppercase = raw_input(W + 'Number of uppercase: ' + N)
+    if uppercase.isdigit():
+      ucase = False
+  spec = True
+  while spec is True:
+    special_char = raw_input(W + 'Number of special char: ' + N)
+    if special_char.isdigit():
+      spec = False
   passwd_for = raw_input(W + 'Password for: ' + N)
   file_name = raw_input(W + 'File name: ' + N)
 
@@ -116,10 +133,12 @@ def makepasswd():
   doc = open(file_path + file_name, 'a')
   if passwd_for is '':
     passwd_for = '<empty>'
+  if file_name is '':
+    file_name = 'apg-pass'
   padding1 = getpass.getpass(W + 'Padding [one char]: ')
   padding2 = getpass.getpass('Confirm Padding: ')
-  key1 = getpass.getpass('Salt Key [' + str(block_size) + ' char]: ')
-  key2 = getpass.getpass('Confirm Salt Key: ')
+  key1 = getpass.getpass('Cipher Key [' + str(block_size) + ' char]: ')
+  key2 = getpass.getpass('Confirm Cipher Key: ')
   pad = lambda s: s + (block_size - len(s) % block_size) * padding1
   encAES = lambda c, s: base64.b64encode(c.encrypt(pad(s)))
   cipher = AES.new(key1)
@@ -151,5 +170,10 @@ while boolean is True:
     print ''
     decryptpasswd()
     break
+  elif case is '3':
+    print ''
+    print W + 'Bye!' + N
+    print ''
+    exit(0)
   else:
     print R + 'Wrong Choice!' + W
