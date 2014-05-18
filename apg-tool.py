@@ -41,7 +41,6 @@ G = '\033[92m'
 N = '\033[0m'
 boolean = True
 
-
 print '' + W
 print '####################################'
 print '#                                  #'
@@ -73,7 +72,7 @@ def start_char():
   print '[d] Decimal'
   print '[l] Lowercase'
   print '[u] Uppercase'
-  print '[s] Special'
+  print '[p] Punctuation'
   print '[r] Random'
   print ''
   schar = raw_input('Password start with: ' + N)
@@ -97,7 +96,7 @@ def makepasswd():
   schar = start_char()
   dec = True
   while dec is True:
-    decimal = raw_input(W + 'Number of decimals: ' + N)
+    decimal = raw_input(W + 'Number of decimal: ' + N)
     if decimal.isdigit():
       dec = False
   lcase = True
@@ -112,7 +111,7 @@ def makepasswd():
       ucase = False
   spec = True
   while spec is True:
-    special_char = raw_input(W + 'Number of special char: ' + N)
+    special_char = raw_input(W + 'Number of punctuation: ' + N)
     if special_char.isdigit():
       spec = False
   passwd_for = raw_input(W + 'Password for: ' + N)
@@ -164,8 +163,8 @@ def makepasswd():
   elif schar is 'l':
     cnt = 0
     passwd = list(passwd)
-    for d in passwd:
-      if d in ascii_lowercase:
+    for l in passwd:
+      if l in ascii_lowercase:
         position = cnt
         break
       cnt += 1
@@ -181,13 +180,11 @@ def makepasswd():
       cnt += 1
     passwd.insert(0, passwd.pop(cnt))
     passwd = ''.join(passwd)
-  elif schar is 's':
+  elif schar is 'p':
     cnt = 0
     passwd = list(passwd)
-    for s in passwd:
-      if s in string.punctuation:
-        print s
-        print cnt
+    for p in passwd:
+      if p in string.punctuation:
         position = cnt
         break
       cnt += 1
