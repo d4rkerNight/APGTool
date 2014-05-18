@@ -7,4 +7,4 @@ Python script to create and decrypt password
 
 TODO:
 
-#1 Add error handling
+1] Add error handling
