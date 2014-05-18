@@ -155,7 +155,7 @@ def decryptpasswd():
   padding = getpass.getpass(W + 'Padding: ')
   decAES = lambda c, e: c.decrypt(base64.b64decode(e)).rstrip(padding)
 
-  key = getpass.getpass('Salt Key: ')
+  key = getpass.getpass('Cipher Key: ')
   cipher = AES.new(key)
   decoded = decAES(cipher, pass_enc)
   print 'Decrypted Passwd: ' + G + decoded
