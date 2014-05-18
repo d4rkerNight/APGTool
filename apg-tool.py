@@ -45,7 +45,7 @@ print '# APG tool                         #'
 print '#                                  #'
 print '# Advanced Password Generator Tool #'
 print '#                                  #'
-print '# By Tesla                         #'
+print '# By t3sl4                         #'
 print '#                                  #'
 print '####################################'
 
