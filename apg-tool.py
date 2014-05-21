@@ -26,7 +26,6 @@
 #
 
 import os
-import re
 import sys
 import random
 import base64
@@ -53,19 +52,19 @@ print '#                                  #'
 print '####################################'
 
 def signal_handler(signal, frame):
-  print ''
-  print W + 'Quitting..' + N
-  print ''
+  print '' + W
+  print 'Quitting..'
+  print '' + N
   sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 
 def start_options():
-  print ''
+  print '' + W
   print '[1] Generate Password'
   print '[2] Decrypt Password'
   print '[3] Quit'
-  print ''
+  print '' + N
 
 def start_char():
   print '' + W
@@ -114,7 +113,7 @@ def makepasswd():
     special_char = raw_input(W + 'Number of punctuation: ' + N)
     if special_char.isdigit():
       spec = False
-  passwd_for = raw_input(W + 'Password for: ' + N)
+  username = raw_input(W + 'Username: ' + N)
   file_name = raw_input(W + 'File name: ' + N)
 
   while boolean is True:
@@ -196,8 +195,8 @@ def makepasswd():
   print ''
 
   ofile = open(file_path + file_name, 'a')
-  if passwd_for is '':
-    passwd_for = '<empty>'
+  if username is '':
+    username = '<empty>'
   if file_name is '':
     file_name = 'apg-pass'
   padding1 = getpass.getpass(W + 'Padding [one char]: ')
@@ -208,26 +207,26 @@ def makepasswd():
   encAES = lambda c, s: base64.b64encode(c.encrypt(pad(s)))
   cipher = AES.new(key1)
   encoded = encAES(cipher, passwd)
-  ofile.write(passwd_for + '::' + encoded + '\n')
+  ofile.write(username + '::' + encoded + '\n')
   ofile.close()
 
-  print ''
+  print '' + W
   print 'Done!'
-  print ''
+  print '' + N
 
 def decryptpasswd():
-  pass_enc = raw_input(W + 'Passwd to decode: ' + N)
+  pass_enc = raw_input(W + 'Password to decode: ' + N)
   padding = getpass.getpass(W + 'Padding: ')
   decAES = lambda c, e: c.decrypt(base64.b64decode(e)).rstrip(padding)
 
   key = getpass.getpass('Cipher Key: ')
   cipher = AES.new(key)
   decoded = decAES(cipher, pass_enc)
-  print 'Decrypted Passwd: ' + G + decoded
+  print 'Decrypted Passwd: ' + G + decoded + N
 
 while boolean is True:
   start_options()
-  case = raw_input('Please Select: ' + N)
+  case = raw_input(W + 'Please Select: ' + N)
   if case is '1':
     print ''
     makepasswd()
@@ -235,9 +234,9 @@ while boolean is True:
     print ''
     decryptpasswd()
   elif case is '3':
-    print ''
-    print W + 'Bye!' + N
-    print ''
+    print '' + W
+    print 'Bye!'
+    print '' + N
     exit(0)
   else:
-    print R + 'Wrong Choice!' + W
+    print R + 'Wrong Choice!' + N
