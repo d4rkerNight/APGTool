@@ -12,3 +12,5 @@ TODO:
 2] Encrypted username (user option)
 
 3] Add password description
+
+4] Add frame
