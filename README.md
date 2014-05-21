@@ -10,3 +10,5 @@ TODO:
 1] Add error handling
 
 2] Encrypted username (or at least after 3 chars)
+
+3] Add password description
