@@ -78,6 +78,8 @@ def start_char():
   print '[r] Random'
   print ''
   schar = raw_input('Password start with [r]: ' + N)
+  if schar is '':
+    schar = 'r'
   return schar
 
 def makepasswd():
@@ -184,7 +186,7 @@ def makepasswd():
   
   while True:
     schar = start_char()
-    if schar is ('' or 'r'):
+    if schar is 'r':
       passwd = ''.join(shuffle)
       break
     elif schar is 'd':
