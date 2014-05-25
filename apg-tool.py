@@ -184,7 +184,7 @@ def makepasswd():
   
   while True:
     schar = start_char()
-    if schar is '':
+    if schar is '' or 'r':
       passwd = ''.join(shuffle)
       break
     elif schar is 'd':
@@ -202,7 +202,7 @@ def makepasswd():
       cnt = 0
       passwd = list(passwd)
       for l in passwd:
-        if l in ascii_lowercase:
+        if l in string.ascii_lowercase:
           position = cnt
           break
         cnt += 1
@@ -213,7 +213,7 @@ def makepasswd():
       cnt = 0
       passwd = list(passwd)
       for u in passwd:
-        if u in ascii_uppercase:
+        if u in string.ascii_uppercase:
           position = cnt
           break
         cnt += 1
@@ -233,13 +233,11 @@ def makepasswd():
       break
     else:
       print '' + R
-      print 'Wrong choice!'
-      print '' + N
+      print 'Wrong choice!' + N
 
   print W + 'Password: ' + G + passwd + N
   print ''
-  ofile = open(file_path + file_name, 'a')
- 
+
   while True:
     padding1 = getpass.getpass(W + 'Padding [one char]: ' + N)
     if len(padding1) is 1:
@@ -274,6 +272,7 @@ def makepasswd():
   encAES = lambda c, s: base64.b64encode(c.encrypt(pad(s)))
   cipher = AES.new(key1)
   encoded = encAES(cipher, passwd)
+  ofile = open(file_path + file_name, 'a')
   ofile.write(username + '::' + encoded + '\n')
   ofile.close()
   print '' + W
