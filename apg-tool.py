@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 #
-# Copyright (C) <2014>  <t3sl4>
+# Copyright (C) <2014>  <t3sl4/tesla23>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,8 @@
 # && encrypt it into a file
 # || decrypt an existing password
 #
-# Project will be update @
+# Project will be maintained @
+#
 # https://github.com/t3sl4/apg-tool
 #
 #
@@ -47,7 +48,7 @@ print '# APG tool                         #'
 print '#                                  #'
 print '# Advanced Password Generator Tool #'
 print '#                                  #'
-print '# By Tesla                         #'
+print '# By tesla                         #'
 print '#                                  #'
 print '####################################'
 
@@ -74,7 +75,7 @@ def start_char():
   print '[p] Punctuation'
   print '[r] Random'
   print ''
-  schar = raw_input('Password start with: ' + N)
+  schar = raw_input('Password start with [r]: ' + N)
   return schar
 
 def makepasswd():
@@ -95,36 +96,33 @@ def makepasswd():
   schar = start_char()
   dec = True
   while dec is True:
-    decimal = raw_input(W + 'Number of decimal: ' + N)
+    decimal = raw_input(W + 'Number of decimals: ' + N)
     if decimal.isdigit():
       dec = False
   lcase = True
   while lcase is True:
-    lowercase = raw_input(W + 'Number of lowercase: ' + N)
+    lowercase = raw_input(W + 'Number of lowercases: ' + N)
     if lowercase.isdigit():
       lcase = False
   ucase = True
   while ucase is True:
-    uppercase = raw_input(W + 'Number of uppercase: ' + N)
+    uppercase = raw_input(W + 'Number of uppercases: ' + N)
     if uppercase.isdigit():
       ucase = False
   spec = True
   while spec is True:
-    special_char = raw_input(W + 'Number of punctuation: ' + N)
+    special_char = raw_input(W + 'Number of punctuations: ' + N)
     if special_char.isdigit():
       spec = False
   username = raw_input(W + 'Username: ' + N)
   file_name = raw_input(W + 'File name: ' + N)
-
   while boolean is True:
     file_path = raw_input(W + 'File path: ' + N)
     if os.path.exists(file_path):
       break
     else:
       print R + 'Path does not exist!' + N
-
   passwd = ''
-
   if int(decimal) > 0:
     i = 0
     while i < int(decimal):
@@ -145,7 +143,6 @@ def makepasswd():
     while i < int(special_char):
       passwd += ''.join(random.choice(string.punctuation))
       i += 1
-
   shuffle = list(passwd)
   random.shuffle(shuffle)
   passwd = ''.join(shuffle)
@@ -193,23 +190,47 @@ def makepasswd():
     print ''
   print W + 'Password: ' + G + passwd + N
   print ''
-
   ofile = open(file_path + file_name, 'a')
   if username is '':
     username = '<empty>'
   if file_name is '':
     file_name = 'apg-pass'
-  padding1 = getpass.getpass(W + 'Padding [one char]: ')
-  padding2 = getpass.getpass('Confirm Padding: ')
-  key1 = getpass.getpass('Cipher Key [' + str(block_size) + ' char]: ')
-  key2 = getpass.getpass('Confirm Cipher Key: ')
+  bpad = True
+  while bpad is True:
+    padding1 = getpass.getpass(W + 'Padding [one char]: ' + N)
+    if len(padding1) is 1:
+      padding2 = getpass.getpass(W + 'Confirm Padding: ' + N)
+      if padding1 == padding2:
+        bpad = False
+      else:
+        print '' + R
+        print 'Paddings do not match!'
+        print '' + N
+    else:
+      print '' + R
+      print 'Padding length is %d, it must be 1 char!' % (len(padding1),)
+      print '' + N
+  bkey = True
+  while bkey is True:
+    key1 = getpass.getpass(W + 'Cipher Key [' + str(block_size) + ' char]: ' + N)
+    if len(key1) is block_size:
+      key2 = getpass.getpass(W + 'Confirm Cipher Key: ' + N)
+      if key1 == key2:
+        bkey = False
+      else:
+        print '' + R
+        print 'Ciphers do not match!'
+        print '' + N
+    else:
+      print '' + R
+      print 'Cipher length is %d, it must be %d!' % (len(key1), block_size)
+      print '' + N
   pad = lambda s: s + (block_size - len(s) % block_size) * padding1
   encAES = lambda c, s: base64.b64encode(c.encrypt(pad(s)))
   cipher = AES.new(key1)
   encoded = encAES(cipher, passwd)
   ofile.write(username + '::' + encoded + '\n')
   ofile.close()
-
   print '' + W
   print 'Done!'
   print '' + N
@@ -218,7 +239,6 @@ def decryptpasswd():
   pass_enc = raw_input(W + 'Password to decode: ' + N)
   padding = getpass.getpass(W + 'Padding: ')
   decAES = lambda c, e: c.decrypt(base64.b64decode(e)).rstrip(padding)
-
   key = getpass.getpass('Cipher Key: ')
   cipher = AES.new(key)
   decoded = decAES(cipher, pass_enc)
