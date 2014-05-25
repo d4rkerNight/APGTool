@@ -184,7 +184,7 @@ def makepasswd():
   
   while True:
     schar = start_char()
-    if schar is '' or 'r':
+    if schar is ('' or 'r'):
       passwd = ''.join(shuffle)
       break
     elif schar is 'd':
