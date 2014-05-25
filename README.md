@@ -7,10 +7,10 @@ Python script to create and decrypt password
 
 TODO:
 
-1] Add error handling
+[1] Finish errors handling
 
-2] Encrypted username (user option)
+[2] Encrypted username (user option)
 
-3] Add password description
+[3] Add password description
 
-4] Add frame
+[4] Add frame
